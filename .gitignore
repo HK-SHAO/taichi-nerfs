@@ -9,6 +9,7 @@ results/
 imgui.ini
 .DS_Store
 *.pyc
+lightning_logs/
 
 data/images
 data/sparse
