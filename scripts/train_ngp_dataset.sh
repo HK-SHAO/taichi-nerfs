@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-export ROOT_DIR="./ngp_data"
+export ROOT_DIR="./assets/datasets/ngp_data"
 export DOWNSAMPLE=0.5 # to avoid OOM
 
 python3 train.py \

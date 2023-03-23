@@ -2,11 +2,13 @@
 
 set -euo pipefail
 
-export DATA_DIR=./Synthetic_NeRF
+export DATA_DIR=./assets/datasets/Synthetic_NeRF
 
 python3 train.py \
     --root_dir $DATA_DIR/Lego \
     --exp_name Lego --perf \
-    --num_epochs 20 --batch_size 8192 --lr 1e-2 --no_save_test --gui \
-    #--half2_opt \
-    #--val_only --ckpt_path ckpts/nsvf/Lego/epoch=19-v6.ckpt
+    --num_epochs 4 --batch_size 2048 --lr 1e-2 \
+    --gui \
+    --half2_opt \
+    # --val_only --ckpt_path ckpts/nsvf/Lego/epoch=19-v6.ckpt \
+    # --no_save_test

@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-export ROOT_DIR="./360_v2/"
+export ROOT_DIR="./assets/datasets/360_v2/"
 export DOWNSAMPLE=0.25 # to avoid OOM
 
 python3 train.py \

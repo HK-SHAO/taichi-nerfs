@@ -37,6 +37,7 @@ class NeRFSystem(LightningModule):
     def __init__(self, hparams):
         super().__init__()
         self.save_hyperparameters(hparams)
+        self.validation_step_outputs = []
 
         self.warmup_steps = 256
         self.update_interval = 16
@@ -124,14 +125,14 @@ class NeRFSystem(LightningModule):
 
     def train_dataloader(self):
         return DataLoader(self.train_dataset,
-                          num_workers=16,
+                          num_workers=1,
                           persistent_workers=True,
                           batch_size=None,
                           pin_memory=True)
 
     def val_dataloader(self):
         return DataLoader(self.test_dataset,
-                          num_workers=8,
+                          num_workers=1,
                           batch_size=None,
                           pin_memory=True)
 
@@ -150,6 +151,7 @@ class NeRFSystem(LightningModule):
         results = self(batch, split='train')
         loss_d = self.loss(results, batch)
         loss = sum(lo.mean() for lo in loss_d.values())
+        self.validation_step_outputs.append(loss)
 
         if not self.hparams.perf:
 
@@ -262,12 +264,15 @@ class NeRFSystem(LightningModule):
         mean_ssim = ssims.mean()
         self.log('test/ssim', mean_ssim)
 
+        self.validation_step_outputs.clear()  # free memory
+
 
 def taichi_init(args):
     taichi_init_args = {"arch": ti.cuda, "device_memory_GB": 4.0}
     if args.half2_opt:
         taichi_init_args["half2_vectorization"] = True
 
+    print("\nInitializing Taichi ...")
     ti.init(**taichi_init_args)
 
 

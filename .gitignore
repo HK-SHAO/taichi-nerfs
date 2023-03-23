@@ -11,6 +11,8 @@ imgui.ini
 *.pyc
 lightning_logs/
 
+assets/datasets/
+
 data/images
 data/sparse
 data/colmap_sparse
