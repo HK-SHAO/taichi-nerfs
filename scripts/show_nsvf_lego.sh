@@ -4,7 +4,7 @@ set -euo pipefail
 
 export DATA_DIR=./assets/datasets/Synthetic_NeRF
 
-python3 train.py \
+python3 show_gui.py \
     --root_dir $DATA_DIR/Lego \
     --exp_name Lego --perf \
     --num_epochs 4 --batch_size 2048 --lr 1e-2 \
