@@ -151,7 +151,6 @@ class NeRFSystem(LightningModule):
         results = self(batch, split='train')
         loss_d = self.loss(results, batch)
         loss = sum(lo.mean() for lo in loss_d.values())
-        self.validation_step_outputs.append(loss)
 
         if not self.hparams.perf:
 
@@ -252,6 +251,8 @@ class NeRFSystem(LightningModule):
             imageio.imsave(os.path.join(self.val_dir, f'depth_{idx:03d}.png'),
                            depth)
 
+        self.validation_step_outputs.append(logs)
+
         return logs
 
     def on_validation_epoch_end(self):
@@ -323,7 +324,7 @@ if __name__ == '__main__':
                         [imageio.imread(img) for img in imgs],
                         fps=24,
                         macro_block_size=1)
-    
+
     if hparams.gui:
         ti.reset()
         if not hparams.val_only:
@@ -337,4 +338,3 @@ if __name__ == '__main__':
         dataset = dataset_dict[hparams.dataset_name](**kwargs)
 
         NGPGUI(hparams, dataset.K, dataset.img_wh, dataset.poses).render()
-
